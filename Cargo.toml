@@ -1,0 +1,83 @@
+[package]
+name = "ray_shot"
+version = "0.1.0"
+authors = ["NiiightmareXD", "JiaPai12138"]
+edition = "2024"
+description = "Fast Windows Screen Capture Library For Python 🔥"
+documentation = "README.md"
+readme = "README.md"
+repository = "https://github.com/JiaPai12138/RayShot"
+license = "MIT"
+keywords = ["screenshot", "screen", "capture", "graphics", "windows"]
+categories = [
+    "api-bindings",
+    "graphics",
+    "gui",
+    "os::windows-apis",
+]
+resolver = "3"
+
+[dependencies]
+# Windows API
+windows = { version = "0.62", features = [
+    # --- WinRT features ---
+    "Foundation",
+    "Foundation_Metadata",
+    "Graphics_Capture",
+    "Graphics_DirectX_Direct3D11",
+    "Graphics_Imaging",
+    "Storage",
+    "Storage_Streams",
+    "System",
+    "System_Threading",
+
+    # --- Win32 features ---
+    "Win32_Devices_Display",
+    "Win32_Foundation",
+    "Win32_Graphics_Direct3D",
+    "Win32_Graphics_Direct3D11",
+    "Win32_Graphics_Dwm",
+    "Win32_Graphics_Dxgi_Common",
+    "Win32_Graphics_Gdi",
+    "Win32_System_Com",
+    "Win32_System_LibraryLoader",
+    "Win32_System_ProcessStatus",
+    "Win32_System_Threading",
+    "Win32_System_WinRT_Direct3D11",
+    "Win32_System_WinRT_Graphics_Capture",
+    "Win32_UI_HiDpi",
+    "Win32_UI_Shell",
+    "Win32_UI_WindowsAndMessaging",
+] }
+windows-future = "0.3"
+
+# Mutex optimization
+parking_lot = "0.12"
+
+# Multithreading
+rayon = "1.11"
+
+# Error handling
+thiserror = "2.0"
+
+# Python part
+bytemuck = { version = "1.24", features = ["derive"] }
+numpy = "0.26"
+pyo3 = { version = "0.26", features = [ "extension-module", ] }
+
+[package.metadata.docs.rs]
+default-target = "x86_64-pc-windows-msvc"
+targets = ["x86_64-pc-windows-msvc"]
+
+[lib]
+name = "ray_shot"
+crate-type = ["cdylib"]
+
+[profile.release]
+codegen-units = 1
+debug = false
+debug-assertions = false
+incremental = false
+lto = "fat"
+opt-level = 3
+strip = true

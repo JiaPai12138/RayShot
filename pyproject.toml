@@ -1,0 +1,31 @@
+[build-system]
+requires = ["maturin>=1.3,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "ray_shot"
+version = "0.1.0"
+description = "Fast Windows Screen Capture Library For Python 🔥"
+readme = "README"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "NiiightmareXD" }, { name = "JiaPai12138"}]
+keywords = ["screen", "capture", "screenshot", "graphics", "windows"]
+dependencies = ["numpy", "opencv-python"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: GPU",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Rust",
+    "Programming Language :: Python",
+    "Topic :: Multimedia",
+    "Topic :: Multimedia :: Graphics :: Capture",
+    "Topic :: Multimedia :: Graphics :: Capture :: Screen Capture",
+    "Topic :: Multimedia :: Video :: Capture",
+]
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+manylinux = "off"
+rustc-extra-args = ["-C", "target-feature=+sse2,+sse4.1,+avx,+avx2,+fma", "-C", "codegen-units=1", "-C", "link-arg=/OPT:REF", "-C", "link-arg=/OPT:ICF"]
