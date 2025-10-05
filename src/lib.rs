@@ -2,9 +2,8 @@
 #![warn(clippy::cargo)]
 #![allow(clippy::redundant_pub_crate)]
 #![allow(clippy::multiple_crate_versions)] // Should update as soon as possible
-#![allow(dead_code)]
+// #![allow(dead_code)]
 
-use std::os::raw::{c_char, c_int};
 use std::{ptr, slice};
 
 mod capture;
@@ -24,9 +23,7 @@ use monitor::Monitor;
 use numpy::PyArrayMethods;
 use numpy::{PyArray1, PyArray3};
 use pyo3::exceptions::PyException;
-use pyo3::ffi;
 use pyo3::prelude::*;
-use pyo3::types::PyMemoryView;
 use rayon::prelude::*;
 use settings::ColorFormat;
 use windows::Win32::Graphics::Direct3D11::{
@@ -46,7 +43,7 @@ fn ray_shot(m: &Bound<'_, PyModule>) -> PyResult<()> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug, Zeroable, Pod)]
+#[derive(Clone, Copy, Zeroable, Pod)]
 struct Bgra {
     b: u8,
     g: u8,
@@ -375,17 +372,5 @@ impl NativeDxgiDuplicationFrame {
             let arr3 = reshaped.downcast::<PyArray3<u8>>().unwrap();
             return arr3.to_owned().unbind();
         })
-    }
-
-    pub fn buffer_view<'py>(&'py self, py: Python<'py>) -> PyResult<Bound<'py, PyMemoryView>> {
-        let len = isize::try_from(self.len).map_err(|_| PyException::new_err("Frame too large for memoryview"))?;
-        const PYBUF_READ: c_int = 0x100;
-        let view = unsafe { ffi::PyMemoryView_FromMemory(self.ptr.cast::<c_char>(), len, PYBUF_READ) };
-        if view.is_null() {
-            Err(PyException::new_err("Failed to create memoryview for DXGI frame"))
-        } else {
-            let any = unsafe { Bound::from_owned_ptr(py, view) };
-            any.downcast_into().map_err(|e| e.into())
-        }
     }
 }
