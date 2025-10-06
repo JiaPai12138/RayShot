@@ -5,8 +5,8 @@ build-backend = "maturin"
 [project]
 name = "ray_shot"
 version = "0.1.0"
-description = "Fast Windows Screen Capture Library For Python 🔥"
-readme = "README"
+description = "Fast Windows Screen Capture Library For Python ⚡️"
+readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
 authors = [{ name = "NiiightmareXD" }, { name = "JiaPai12138"}]

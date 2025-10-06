@@ -104,8 +104,8 @@ impl GraphicsCapturePicker {
         let hwnd = unsafe {
             CreateWindowExW(
                 WS_EX_TOOLWINDOW,
-                w!("windows-capture-picker-window"),
-                w!("Windows Capture Picker"),
+                w!("ray-shot-picker-window"),
+                w!("Rayshot Capture Picker"),
                 WS_POPUP | WS_VISIBLE,
                 -69000,
                 -69000,

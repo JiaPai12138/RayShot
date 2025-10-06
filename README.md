@@ -1,6 +1,6 @@
-# RayShot 🔥
+# RayShot ⚡️
 
-📸⚡️ RayShot – High-speed DXGI screenshot capture library built with Rust.<br>
+📸 RayShot – High-speed Windows screenshot capture library built with Rust.<br>
 🎯 Windows-only • 🚀 High-performance • 🦀 Rust-powered • 🐍 Python bindings<br>
 > ⚠️ This project’s main code is derived from [**windows-capture**](https://github.com/NiiightmareXD/windows-capture), customized and extended accordingly.
 
