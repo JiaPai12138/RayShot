@@ -3,7 +3,7 @@ from typing import List, Optional
 import cv2
 import numpy
 
-from .windows_capture import (
+from .ray_shot import (
     NativeDxgiDuplication,
     NativeDxgiDuplicationFrame,
 )

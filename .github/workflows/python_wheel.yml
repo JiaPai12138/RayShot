@@ -41,7 +41,7 @@ jobs:
       - name: Upload all wheels
         uses: actions/upload-artifact@v4
         with:
-          name: windows-capture-py-${{ matrix.python-version }}
+          name: rayshot-py-${{ matrix.python-version }}
           path: ./target/wheels/*.whl
 
       - name: Update GitHub Release
