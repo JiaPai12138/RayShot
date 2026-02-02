@@ -61,7 +61,7 @@ rayon = "1.11"
 thiserror = "2.0"
 
 # Python part
-bytemuck = { version = "1.24", features = ["derive"] }
+bytemuck = { version = "1.25", features = ["derive"] }
 numpy = "0.26"
 pyo3 = { version = "0.26", features = [ "extension-module", ] }
 
