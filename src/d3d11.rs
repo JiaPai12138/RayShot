@@ -9,7 +9,7 @@ use windows::Win32::Graphics::Direct3D11::{
     D3D11_TEXTURE2D_DESC, D3D11_USAGE_STAGING, D3D11CreateDevice, ID3D11Device, ID3D11DeviceContext, ID3D11Texture2D,
 };
 use windows::Win32::Graphics::Dxgi::Common::{DXGI_FORMAT, DXGI_SAMPLE_DESC};
-use windows::Win32::Graphics::Dxgi::IDXGIDevice;
+use windows::Win32::Graphics::Dxgi::{IDXGIDevice, IDXGISurface};
 use windows::Win32::System::WinRT::Direct3D11::CreateDirect3D11DeviceFromDXGIDevice;
 use windows::core::Interface;
 
@@ -109,6 +109,7 @@ pub struct StagingTexture {
     inner: ID3D11Texture2D,
     desc: D3D11_TEXTURE2D_DESC,
     is_mapped: bool,
+    surface: IDXGISurface, // Caching to improve performance?
 }
 
 impl StagingTexture {
@@ -131,7 +132,9 @@ impl StagingTexture {
         unsafe {
             device.CreateTexture2D(&desc, None, Some(&mut tex))?;
         }
-        Ok(Self { inner: tex.unwrap(), desc, is_mapped: false })
+        let texture = tex.unwrap();
+        let cache_serface = texture.cast::<IDXGISurface>()?;
+        Ok(Self { inner: texture, desc, is_mapped: false, surface: cache_serface })
     }
 
     /// Gets the underlying [`windows::Win32::Graphics::Direct3D11::ID3D11Texture2D`].
@@ -174,6 +177,7 @@ impl StagingTexture {
             return None;
         }
 
-        Some(Self { inner: tex, desc, is_mapped: false })
+        let cache_serface = tex.cast::<IDXGISurface>().ok()?;
+        Some(Self { inner: tex, desc, is_mapped: false, surface: cache_serface })
     }
 }
